@@ -9,28 +9,32 @@ export const taskService = {
   async createTask(taskData) {
     const formData = new FormData();
     Object.keys(taskData).forEach(key => {
-      if (key === 'file' && taskData[key] instanceof File) {
-        formData.append('file', taskData[key]);
-      } else if (key !== 'file' && taskData[key] !== null && taskData[key] !== undefined) {
+      if (taskData[key] !== null && taskData[key] !== undefined) {
         formData.append(key, taskData[key]);
       }
     });
 
-    const response = await api.post('/tasks', formData);
+    const response = await api.post('/tasks', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     return response.data;
   },
 
   async updateTask(id, taskData) {
     const formData = new FormData();
     Object.keys(taskData).forEach(key => {
-      if (key === 'file' && taskData[key] instanceof File) {
-        formData.append('file', taskData[key]);
-      } else if (key !== 'file' && taskData[key] !== null && taskData[key] !== undefined) {
+      if (taskData[key] !== null && taskData[key] !== undefined) {
         formData.append(key, taskData[key]);
       }
     });
 
-    const response = await api.put(`/tasks/${id}`, formData);
+    const response = await api.put(`/tasks/${id}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     return response.data;
   },
 
