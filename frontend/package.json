@@ -6,13 +6,18 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "start": "vite preview",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.13",
+    "axios": "^1.6.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-router-dom": "^6.20.0",
+    "react-beautiful-dnd": "^13.1.1",
+    "react-hot-toast": "^2.4.1",
     "tailwindcss": "^4.1.13"
   },
   "devDependencies": {
