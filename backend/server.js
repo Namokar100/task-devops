@@ -11,6 +11,7 @@ const cors = require('cors');
 const authRoutes = require('./routes/auth');
 const boardRoutes = require('./routes/boards');
 const taskRoutes = require('./routes/tasks');
+const fileRoutes = require('./routes/files');
 const systemRoutes = require('./routes/system');
 
 const app = express();
@@ -25,8 +26,8 @@ app.use(
   })
 );
 
-// Serve uploaded files
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// File serving routes (MinIO)
+app.use('/api/files', fileRoutes);
 
 // Connect to services
 mongoConnect();
@@ -37,6 +38,7 @@ initializeMinio();
 app.use('/api/auth', authRoutes);
 app.use('/api/boards', boardRoutes);
 app.use('/api/tasks', taskRoutes);
+app.use('/api/files', fileRoutes);
 app.use('/api', systemRoutes);
 
 // Error handling middleware
