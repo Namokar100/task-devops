@@ -2,6 +2,8 @@ const express = require('express');
 const path = require('path');
 require('dotenv').config();
 const mongoConnect = require('./config/db');
+const { connectRedis } = require('./config/redis');
+const { initializeMinio } = require('./config/minio');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
@@ -26,8 +28,10 @@ app.use(
 // Serve uploaded files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Connect to MongoDB
+// Connect to services
 mongoConnect();
+connectRedis();
+initializeMinio();
 
 // Routes
 app.use('/api/auth', authRoutes);
