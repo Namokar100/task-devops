@@ -1,7 +1,6 @@
 const Task = require('../models/Task');
 const Board = require('../models/Board');
-const path = require('path');
-const fs = require('fs');
+const { uploadFile, deleteFile } = require('../services/fileService');
 
 const createTask = async (req, res) => {
   try {
@@ -21,7 +20,10 @@ const createTask = async (req, res) => {
     };
 
     if (req.file) {
-      taskData.filePath = req.file.path;
+      const fileData = await uploadFile(req.file);
+      taskData.fileName = fileData.fileName;
+      taskData.originalName = fileData.originalName;
+      taskData.fileUrl = fileData.url;
     }
 
     const task = new Task(taskData);
@@ -69,10 +71,13 @@ const updateTask = async (req, res) => {
 
     const updateData = { title, description, status };
     if (req.file) {
-      if (task.filePath && fs.existsSync(task.filePath)) {
-        fs.unlinkSync(task.filePath);
+      if (task.fileName) {
+        await deleteFile(task.fileName);
       }
-      updateData.filePath = req.file.path;
+      const fileData = await uploadFile(req.file);
+      updateData.fileName = fileData.fileName;
+      updateData.originalName = fileData.originalName;
+      updateData.fileUrl = fileData.url;
     }
 
     const updatedTask = await Task.findByIdAndUpdate(
@@ -100,8 +105,8 @@ const deleteTask = async (req, res) => {
       return res.status(403).json({ message: 'Access denied' });
     }
 
-    if (task.filePath && fs.existsSync(task.filePath)) {
-      fs.unlinkSync(task.filePath);
+    if (task.fileName) {
+      await deleteFile(task.fileName);
     }
 
     await Task.findByIdAndDelete(req.params.id);
