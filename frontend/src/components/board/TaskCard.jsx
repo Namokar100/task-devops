@@ -32,9 +32,9 @@ const TaskCard = ({ task, index, onEdit, onDelete }) => {
           {task.description && (
             <p className="text-xs text-gray-600 mb-2">{task.description}</p>
           )}
-          {task.filePath && (
+          {task.fileName && (
             <div className="text-xs text-indigo-600 mb-2">
-              📎 File attached
+              📎 {task.originalName || 'File attached'}
             </div>
           )}
           <div className="text-xs text-gray-500">
