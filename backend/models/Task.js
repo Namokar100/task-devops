@@ -24,7 +24,13 @@ const taskSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   },
-  filePath: {
+  fileName: {
+    type: String
+  },
+  originalName: {
+    type: String
+  },
+  fileUrl: {
     type: String
   }
 }, {
