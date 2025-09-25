@@ -3,7 +3,7 @@ const path = require('path');
 require('dotenv').config();
 const mongoConnect = require('./config/db');
 const { connectRedis } = require('./config/redis');
-const { initializeMinio } = require('./config/minio');
+const { initializeStorage } = require('./config/storage');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
@@ -32,7 +32,7 @@ app.use('/api/files', fileRoutes);
 // Connect to services
 mongoConnect();
 connectRedis();
-initializeMinio();
+initializeStorage();
 
 // Routes
 app.use('/api/auth', authRoutes);
